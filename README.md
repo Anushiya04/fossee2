@@ -36,4 +36,5 @@ Before running the application, ensure you have the following installed:
 3. **Arduino IDE** (to upload StandardFirmata firmware)
 
 ---
+[image alt]()
 
