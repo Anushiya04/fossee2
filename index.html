@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arduino Code Uploader</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Arduino Python Code Uploader</h1>
+
+    <div class="status">
+      <span id="connectionStatus">Connection Status: Not Connected</span>
+    </div>
+
+    <div>
+      <label for="ports">Select Port:</label>
+      <select id="ports">
+        <option value="">Select Port</option>
+      </select>
+      <button id="refreshPorts">Refresh Ports</button>
+    </div>
+
+    <div>
+      <label for="code">Enter Python Code:</label>
+      <textarea id="code" rows="10" cols="50"></textarea>
+    </div>
+
+    <div>
+      <button id="uploadCode">Upload Code to Arduino</button>
+      <button id="resetApp">Reset</button>
+    </div>
+    
+    <div id="uploadStatus">Upload Status: Not Uploaded</div>
+  </div>
+
+  <script>
+    const refreshButton = document.getElementById('refreshPorts');
+    const uploadButton = document.getElementById('uploadCode');
+    const resetButton = document.getElementById('resetApp');
+    const portsSelect = document.getElementById('ports');
+    const connectionStatus = document.getElementById('connectionStatus');
+    const uploadStatus = document.getElementById('uploadStatus');
+    const codeArea = document.getElementById('code');
+
+    // Refresh the port list
+    refreshButton.addEventListener('click', async () => {
+      try {
+        const ports = await window.electron.listPorts();
+        portsSelect.innerHTML = '<option value="">Select Port</option>'; // Reset the options
+        ports.forEach(port => {
+          const option = document.createElement('option');
+          option.value = port.path;
+          option.textContent = port.path;
+          portsSelect.appendChild(option);
+        });
+        if (ports.length === 0) {
+          connectionStatus.textContent = 'Connection Status: No Ports Found';
+        } else {
+          connectionStatus.textContent = 'Connection Status: Ports Found';
+        }
+      } catch (error) {
+        connectionStatus.textContent = 'Connection Status: Error listing ports';
+      }
+    });
+
+    // Upload code to Arduino
+    uploadButton.addEventListener('click', async () => {
+      const selectedPort = portsSelect.value;
+      const pythonCode = codeArea.value;
+
+      if (!selectedPort) {
+        alert('Please select a port first.');
+        return;
+      }
+
+      if (!pythonCode) {
+        alert('Please enter some Python code.');
+        return;
+      }
+
+      uploadStatus.textContent = 'Upload Status: Uploading...';
+
+      try {
+        await window.electron.uploadCode(selectedPort, pythonCode);
+        uploadStatus.textContent = 'Upload Status: Code Uploaded Successfully';
+      } catch (error) {
+        uploadStatus.textContent = 'Upload Status: Error uploading code';
+      }
+    });
+
+    // Reset the app (clear the text area and selected port)
+    resetButton.addEventListener('click', () => {
+      portsSelect.value = '';
+      codeArea.value = '';
+      connectionStatus.textContent = 'Connection Status: Not Connected';
+      uploadStatus.textContent = 'Upload Status: Not Uploaded';
+    });
+  </script>
+</body>
+</html>
