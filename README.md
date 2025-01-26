@@ -34,13 +34,6 @@ Before running the application, ensure you have the following installed:
 1. **Node.js** (latest version)
 2. **Python** (version 3.7 or later)
 3. **Arduino IDE** (to upload StandardFirmata firmware)
-4. **Git** (optional, for cloning the repository)
 
 ---
 
-## Setup Instructions
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/your-username/electron-python-arduino-controller.git
-cd electron-python-arduino-controller
