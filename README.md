@@ -36,5 +36,5 @@ Before running the application, ensure you have the following installed:
 3. **Arduino IDE** (to upload StandardFirmata firmware)
 
 ---
-[image alt](https://github.com/Anushiya04/fossee2/blob/4a46d61a1ce2d52ff9be6d30659f12c29f1d0910/Electron%20app.jpg)
+![image alt](https://github.com/Anushiya04/fossee2/blob/4a46d61a1ce2d52ff9be6d30659f12c29f1d0910/Electron%20app.jpg)
 
